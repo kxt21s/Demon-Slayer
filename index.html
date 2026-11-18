@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demon Slayer: Kimetsu no Yaiba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Noto+Serif+JP:wght@300;400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:#050508;color:#e8e0d0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
+
+/* ── CUSTOM CURSOR ── */
+#cursor-dot{position:fixed;width:8px;height:8px;background:#c0392b;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(192,57,43,.6);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .12s ease,width .2s,height .2s,opacity .2s}
+body:hover #cursor-ring{opacity:1}
+.hoverable:hover~#cursor-dot,a:hover~#cursor-dot{transform:translate(-50%,-50%) scale(2.5)}
+
+/* ── SCROLL PROGRESS ── */
+#scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#8b0000,#c0392b,#e84118);z-index:9997;width:0%;transition:width .1s}
+
+/* ── NAVBAR ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 3rem;transition:background .4s,padding .3s}
+nav.scrolled{background:rgba(5,5,8,.92);backdrop-filter:blur(12px);padding:1rem 3rem;border-bottom:1px solid rgba(192,57,43,.15)}
+.nav-logo{font-family:'Cinzel Decorative',cursive;font-size:1.15rem;font-weight:700;color:#e8e0d0;letter-spacing:.12em;text-decoration:none;cursor:none}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{color:rgba(232,224,208,.7);text-decoration:none;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;transition:color .2s;cursor:none}
+.nav-links a:hover{color:#c0392b}
+@media(max-width:768px){.nav-links{display:none}nav{padding:1rem 1.5rem}}
+
+/* ── SECTIONS BASE ── */
+section{position:relative;overflow:hidden}
+
+/* ══════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════ */
+#hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
+.hero-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/hero-night.jpg');background-size:cover;background-position:center;will-change:transform}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,8,.35) 0%,rgba(5,5,8,.5) 60%,rgba(5,5,8,.9) 100%)}
+.hero-particles{position:absolute;inset:0;background-image:url('assets/effects/ember-overlay.png');background-size:256px 256px;opacity:.25;animation:drift 18s linear infinite}
+@keyframes drift{0%{background-position:0 0}100%{background-position:256px 256px}}
+.hero-content{position:relative;z-index:2;max-width:900px;padding:2rem}
+.hero-label{font-size:.65rem;letter-spacing:.4em;text-transform:uppercase;color:#c0392b;margin-bottom:1.2rem;opacity:0;transform:translateY(20px)}
+.hero-jp{font-family:'Noto Serif JP',serif;font-size:1rem;letter-spacing:.3em;color:rgba(232,224,208,.45);margin-bottom:.8rem;opacity:0}
+.hero-title{font-family:'Cinzel Decorative',cursive;font-size:clamp(3rem,8vw,7rem);font-weight:900;line-height:1;letter-spacing:.05em;color:#e8e0d0;text-shadow:0 0 80px rgba(192,57,43,.4);opacity:0;transform:scale(.92)}
+.hero-subtitle{margin-top:1.8rem;font-size:clamp(.9rem,1.5vw,1.1rem);color:rgba(232,224,208,.55);font-style:italic;letter-spacing:.06em;max-width:500px;margin-inline:auto;opacity:0}
+.hero-btn{display:inline-block;margin-top:2.8rem;padding:.9rem 2.8rem;border:1px solid rgba(192,57,43,.6);color:#e8e0d0;text-decoration:none;font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;transition:background .3s,border-color .3s,color .3s;cursor:none;opacity:0}
+.hero-btn:hover{background:rgba(192,57,43,.25);border-color:#c0392b}
+.hero-sword{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(192,57,43,.8),transparent);transform:scaleX(0);transform-origin:center}
+
+/* ══════════════════════════════════════════
+   2. STORY
+══════════════════════════════════════════ */
+#story{min-height:100vh;display:flex;align-items:center}
+.story-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/story-forest.jpg');background-size:cover;background-position:center;will-change:transform}
+.story-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,8,.85) 0%,rgba(5,5,8,.6) 50%,rgba(5,5,8,.4) 100%)}
+.story-char{position:absolute;right:0;bottom:0;width:min(500px,50%);height:90%;background:url('assets/chars/tanjiro-portrait.png') bottom right/contain no-repeat;opacity:.85;filter:drop-shadow(-20px 0 60px rgba(5,5,8,.95)) brightness(.9)}
+.story-mist{position:absolute;inset:0;background-image:url('assets/effects/mist-texture.png');background-size:400px 400px;opacity:.15;animation:drift 24s linear infinite reverse}
+.story-content{position:relative;z-index:2;max-width:600px;padding:4rem 3rem 4rem 6rem}
+@media(max-width:768px){.story-content{padding:4rem 1.5rem}.story-char{width:100%;opacity:.2}}
+.story-label{font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#c0392b;margin-bottom:1.5rem}
+.story-heading{font-family:'Cinzel',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;line-height:1.1;margin-bottom:2rem;text-shadow:0 0 40px rgba(192,57,43,.3)}
+.story-text{font-size:1.05rem;line-height:1.9;color:rgba(232,224,208,.7);border-left:2px solid rgba(192,57,43,.4);padding-left:1.5rem}
+
+/* ══════════════════════════════════════════
+   3. CHARACTERS
+══════════════════════════════════════════ */
+#characters{height:100vh}
+.chars-pin-wrapper{overflow:hidden;position:relative;background:#050508}
+.chars-track{display:flex;height:100vh;will-change:transform}
+.char-slide{flex:0 0 100vw;height:100vh;position:relative;display:flex;align-items:center;justify-content:center}
+.char-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:filter 1s;filter:brightness(.35) saturate(.7)}
+.char-portrait{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,70vw);height:90%;background-size:contain;background-repeat:no-repeat;background-position:bottom center;filter:drop-shadow(0 0 80px var(--char-glow)) drop-shadow(0 0 30px var(--char-glow));image-rendering:auto}
+.char-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,8,.2) 0%,rgba(5,5,8,.5) 60%,rgba(5,5,8,.95) 100%)}
+.char-content{position:relative;z-index:2;text-align:center;padding:2rem;margin-top:auto;padding-bottom:5rem}
+.char-index{font-size:.55rem;letter-spacing:.4em;color:rgba(192,57,43,.7);text-transform:uppercase;display:block;margin-bottom:.5rem}
+.char-name{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;margin-bottom:.8rem}
+.char-desc{font-size:.9rem;color:rgba(232,224,208,.6);max-width:400px;margin:0 auto 1.5rem;line-height:1.7}
+.char-style{font-size:.65rem;letter-spacing:.3em;color:#c0392b;text-transform:uppercase}
+.char-pips{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:3}
+.char-pip{width:6px;height:6px;border-radius:50%;background:rgba(232,224,208,.25);transition:background .3s,transform .3s}
+.char-pip.active{background:#c0392b;transform:scale(1.4)}
+.char-particles{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s;background-size:256px 256px;animation:drift 12s linear infinite}
+
+/* ══════════════════════════════════════════
+   4. BREATHING STYLES
+══════════════════════════════════════════ */
+#breathing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 2rem}
+.breathing-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/breathing-bg.jpg');background-size:cover;transition:background-color .6s}
+.breathing-overlay{position:absolute;inset:0;background:rgba(5,5,8,.7)}
+.breathing-particles{position:absolute;inset:0;pointer-events:none;opacity:0;background-size:256px 256px;animation:drift 10s linear infinite;transition:opacity .4s}
+.breathing-label{position:relative;z-index:2;font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#c0392b;margin-bottom:1rem}
+.breathing-title{position:relative;z-index:2;font-family:'Cinzel Decorative',cursive;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;margin-bottom:.5rem;text-align:center}
+.breathing-sub{position:relative;z-index:2;color:rgba(232,224,208,.4);font-size:.8rem;letter-spacing:.2em;margin-bottom:4rem;text-align:center;text-transform:uppercase}
+.breathing-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;max-width:1100px;width:100%}
+.breath-card{padding:2rem 1.5rem;border:1px solid rgba(232,224,208,.08);text-align:center;cursor:none;transition:border-color .3s,transform .3s,background .3s;position:relative;overflow:hidden}
+.breath-card::before{content:'';position:absolute;inset:0;background:var(--card-glow,rgba(192,57,43,.08));opacity:0;transition:opacity .3s}
+.breath-card:hover::before{opacity:1}
+.breath-card:hover{border-color:var(--card-color,#c0392b);transform:translateY(-6px)}
+.breath-icon{font-size:2.2rem;margin-bottom:1rem;display:block}
+.breath-name{font-family:'Cinzel',serif;font-size:.95rem;font-weight:700;margin-bottom:.6rem;color:var(--card-color,#e8e0d0)}
+.breath-user{font-size:.7rem;color:rgba(232,224,208,.45);letter-spacing:.1em;margin-bottom:.8rem}
+.breath-desc{font-size:.75rem;color:rgba(232,224,208,.5);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .4s}
+.breath-card.active .breath-desc{max-height:100px}
+
+/* ══════════════════════════════════════════
+   5. HASHIRA
+══════════════════════════════════════════ */
+#hashira{min-height:100vh;padding:6rem 2rem}
+.hashira-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/hashira-bg.jpg');background-size:cover;background-position:center}
+.hashira-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,8,.8) 0%,rgba(5,5,8,.6) 50%,rgba(5,5,8,.8) 100%)}
+.hashira-header{position:relative;z-index:2;text-align:center;margin-bottom:4rem}
+.hashira-label{font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#c0392b;display:block;margin-bottom:.8rem}
+.hashira-title{font-family:'Cinzel Decorative',cursive;font-size:clamp(2rem,5vw,3.5rem);font-weight:700}
+.hashira-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;max-width:1300px;margin:0 auto}
+.hashira-card{position:relative;overflow:hidden;cursor:none;will-change:transform}
+.hashira-card-bg{position:absolute;inset:0;background-size:contain;background-position:bottom center;background-repeat:no-repeat;filter:brightness(.75) saturate(.8);transition:filter .6s,transform .6s;background-color:rgba(5,5,8,.7)}
+.hashira-card:hover .hashira-card-bg{filter:brightness(.95) saturate(1);transform:scale(1.05)}
+.hashira-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(5,5,8,.95) 100%)}
+.hashira-card-body{position:relative;z-index:2;padding:18rem 1.5rem 1.5rem}
+.hashira-rank{font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:#c0392b;display:block;margin-bottom:.4rem}
+.hashira-name{font-family:'Cinzel',serif;font-size:1.15rem;font-weight:700;margin-bottom:.3rem}
+.hashira-style{font-size:.65rem;color:rgba(232,224,208,.5);letter-spacing:.15em;margin-bottom:.8rem;text-transform:uppercase}
+.hashira-quote{font-size:.8rem;color:rgba(232,224,208,.6);line-height:1.6;font-style:italic}
+.hashira-glow{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--glow-color,#c0392b);transform:scaleX(0);transition:transform .4s}
+.hashira-card:hover .hashira-glow{transform:scaleX(1)}
+
+/* ══════════════════════════════════════════
+   6. DEMONS
+══════════════════════════════════════════ */
+#demons{min-height:100vh;padding:6rem 2rem}
+.demons-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/demon-bg.jpg');background-size:cover;background-position:center}
+.demons-overlay{position:absolute;inset:0;background:rgba(5,5,8,.65)}
+.demons-smoke{position:absolute;inset:0;background-image:url('assets/effects/mist-texture.png');background-size:512px 512px;opacity:.1;animation:drift 30s linear infinite}
+.demons-header{position:relative;z-index:2;text-align:center;margin-bottom:4rem}
+.demons-label{font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(192,57,43,.7);display:block;margin-bottom:.8rem}
+.demons-title{font-family:'Cinzel Decorative',cursive;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:#8b0000;text-shadow:0 0 40px rgba(139,0,0,.6)}
+.demons-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;max-width:1400px;margin:0 auto}
+.demon-card{position:relative;overflow:hidden;border:1px solid rgba(139,0,0,.3);padding:0;aspect-ratio:3/4;cursor:none;transition:border-color .3s}
+.demon-card:hover{border-color:rgba(192,57,43,.7)}
+.demon-card-bg{position:absolute;inset:0;background-size:cover;background-position:center top;background-repeat:no-repeat;filter:brightness(.85) saturate(.9);transition:filter .6s}
+.demon-card:hover .demon-card-bg{filter:brightness(1.05) saturate(1.1)}
+.demon-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,8,.05) 0%,rgba(5,5,8,.15) 40%,rgba(5,5,8,.85) 75%,rgba(5,5,8,.95) 100%)}
+.demon-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(139,0,0,.2) 0%,transparent 70%);opacity:0;transition:opacity .4s}
+.demon-card:hover .demon-glow{opacity:1}
+.demon-body{position:relative;z-index:2;padding:1.2rem;position:absolute;bottom:0;left:0;right:0}
+.demon-rank{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:#8b0000;display:block;margin-bottom:.4rem}
+.demon-name{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:#e8e0d0}
+.demon-desc{font-size:.72rem;color:rgba(232,224,208,.45);line-height:1.5;margin-top:.4rem}
+
+/* ══════════════════════════════════════════
+   7. UPPER MOONS
+══════════════════════════════════════════ */
+#upper-moons{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:6rem 4rem;overflow:hidden}
+.moons-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/upper-moons-bg.jpg');background-size:cover}
+.moons-overlay{position:absolute;inset:0;background:rgba(5,5,8,.75)}
+.moons-header{position:relative;z-index:2;text-align:center;margin-bottom:3rem}
+.moons-label{font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(192,57,43,.7)}
+.moons-title{font-family:'Cinzel Decorative',cursive;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:#8b0000;text-shadow:0 0 40px rgba(139,0,0,.5);margin-top:.5rem}
+.moon-list{position:relative;z-index:2;max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem}
+.moon-item{display:grid;grid-template-columns:2fr 1fr 3fr;align-items:center;gap:2rem;padding:1.2rem 0;border-bottom:1px solid rgba(139,0,0,.2);opacity:0;transform:translateX(-60px);transition:opacity .5s,transform .5s}
+.moon-item.revealed{opacity:1;transform:translateX(0)}
+.moon-roman{font-family:'Cinzel',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;color:rgba(139,0,0,.4);line-height:1}
+.moon-name{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:#e8e0d0}
+.moon-ability{font-size:.7rem;color:rgba(232,224,208,.45);letter-spacing:.1em;text-transform:uppercase}
+.moon-portrait{width:90px;height:90px;border-radius:50%;background-size:cover;background-position:center top;border:2px solid rgba(139,0,0,.6);filter:brightness(.75) saturate(.7);overflow:hidden}
+
+/* ══════════════════════════════════════════
+   8. BATTLE
+══════════════════════════════════════════ */
+#battle{height:100vh;display:flex;align-items:center;justify-content:center}
+.battle-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/battle-bg.jpg');background-size:cover;background-position:center}
+.battle-overlay{position:absolute;inset:0;background:rgba(5,5,8,.7)}
+.battle-canvas{position:absolute;inset:0}
+.battle-content{position:relative;z-index:2;text-align:center}
+.battle-line1{font-family:'Cinzel',serif;font-size:clamp(1rem,2.5vw,1.5rem);color:rgba(232,224,208,.5);letter-spacing:.2em;font-style:italic;margin-bottom:2rem;opacity:0}
+.battle-line2{font-family:'Cinzel Decorative',cursive;font-size:clamp(2rem,5vw,4rem);font-weight:900;color:#e8e0d0;text-shadow:0 0 60px rgba(232,100,24,.5);opacity:0;transform:scaleX(.8)}
+.battle-slash{position:absolute;inset:0;background:linear-gradient(135deg,transparent 48%,rgba(255,255,255,.04) 49%,rgba(255,255,255,.04) 51%,transparent 52%);opacity:0}
+
+/* ══════════════════════════════════════════
+   9. MUZAN
+══════════════════════════════════════════ */
+#muzan{height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.muzan-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/muzan-bg.jpg');background-size:cover;background-position:center;will-change:transform}
+.muzan-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(60,0,80,.3) 0%,rgba(5,5,8,.85) 70%)}
+.muzan-silhouette{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,60vw);height:90%;background:url('assets/chars/muzan-portrait.png') bottom center/contain no-repeat;filter:drop-shadow(0 0 80px rgba(139,0,0,1)) drop-shadow(0 0 40px rgba(200,0,0,.8)) brightness(.7);opacity:.9}
+.muzan-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);pointer-events:none;animation:scan 8s linear infinite;opacity:.4}
+@keyframes scan{0%{background-position:0 0}100%{background-position:0 100px}}
+.muzan-content{position:relative;z-index:2;text-align:center}
+.muzan-tag{font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(192,57,43,.6);margin-bottom:2rem;display:block}
+.muzan-line1{font-family:'Cinzel Decorative',cursive;font-size:clamp(1.5rem,4vw,2.8rem);font-weight:700;color:#8b0000;text-shadow:0 0 60px rgba(139,0,0,.8);margin-bottom:3rem;opacity:0}
+.muzan-line2{font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,2rem);color:rgba(232,224,208,.6);letter-spacing:.2em;opacity:0}
+.muzan-glow-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(60,0,80,.25) 0%,transparent 70%);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.3);opacity:1}}
+
+/* ══════════════════════════════════════════
+   10. FINAL / SUNRISE
+══════════════════════════════════════════ */
+#final{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
+.final-bg{position:absolute;inset:0;background-image:url('assets/backgrounds/sunrise.jpg');background-size:cover;background-position:center;opacity:0;transition:opacity 1s;will-change:opacity}
+.final-night-overlay{position:absolute;inset:0;background:rgba(5,5,8,.95)}
+.final-silhouette{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(380px,50vw);height:80%;background:url('assets/chars/tanjiro-portrait.png') bottom center/contain no-repeat;filter:drop-shadow(0 0 60px rgba(255,200,80,.6)) brightness(.85);opacity:0;transition:opacity 1.5s}
+.final-content{position:relative;z-index:2}
+.final-line1{font-family:'Cinzel Decorative',cursive;font-size:clamp(1.8rem,4vw,3.2rem);font-weight:900;margin-bottom:1rem;opacity:0}
+.final-line2{font-family:'Cinzel',serif;font-size:clamp(1rem,2vw,1.4rem);color:rgba(232,224,208,.6);letter-spacing:.2em;margin-bottom:3.5rem;opacity:0}
+.final-buttons{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;opacity:0}
+.final-btn{padding:.85rem 2.2rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;cursor:none;transition:background .3s,color .3s}
+.final-btn.primary{background:rgba(192,57,43,.8);color:#e8e0d0;border:1px solid #c0392b}
+.final-btn.primary:hover{background:#c0392b}
+.final-btn.secondary{border:1px solid rgba(232,224,208,.3);color:rgba(232,224,208,.7)}
+.final-btn.secondary:hover{border-color:#e8e0d0;color:#e8e0d0}
+
+/* ── ASSET CREDIT NOTE (hidden visually, present for SEO/legal) ── */
+.asset-credits{display:none}
+
+/* === VIDEO SHOWCASE SECTION === */
+#video-showcase {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #050508;
+  overflow: hidden;
+  padding: 4rem 2rem;
+}
+.video-section-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(139,0,0,0.18) 0%, rgba(5,5,8,1) 70%);
+  pointer-events: none;
+}
+.video-section-title {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+  color: #e8e0d0;
+  text-align: center;
+  margin-bottom: 0.6rem;
+  opacity: 0;
+  transform: translateY(30px);
+  letter-spacing: 0.12em;
+}
+.video-section-sub {
+  font-size: 0.8rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(192,57,43,0.7);
+  text-align: center;
+  margin-bottom: 3rem;
+  opacity: 0;
+}
+.video-wrapper {
+  position: relative;
+  width: min(960px, 90vw);
+  aspect-ratio: 16/9;
+  border: 1px solid rgba(192,57,43,0.25);
+  box-shadow:
+    0 0 60px rgba(139,0,0,0.3),
+    0 0 120px rgba(139,0,0,0.1),
+    inset 0 0 40px rgba(0,0,0,0.6);
+  opacity: 0;
+  transform: scale(0.92);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-corner {
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(192,57,43,0.8);
+  border-style: solid;
+}
+.video-corner.tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+.video-corner.tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+.video-corner.bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+.video-corner.br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+
+/* === TENGEN VS GYUTARO BATTLE === */
+.battle-versus {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 72vh;
+}
+.versus-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 380px;
+}
+.versus-img {
+  width: 100%;
+  height: 55vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 30px rgba(232,64,18,.4));
+  transition: transform .4s, filter .4s;
+}
+.versus-right .versus-img {
+  filter: drop-shadow(0 0 30px rgba(139,0,0,.6));
+  transform: scaleX(-1);
+}
+.versus-char:hover .versus-img {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 50px rgba(232,64,18,.7));
+}
+.versus-right:hover .versus-img {
+  transform: scaleX(-1) scale(1.04);
+  filter: drop-shadow(0 0 50px rgba(192,57,43,.8));
+}
+.versus-left .versus-img { background-position: bottom right; }
+.versus-right .versus-img { background-position: bottom left; }
+.versus-info {
+  text-align: center;
+  padding: 1rem 0 0.5rem;
+}
+.versus-tag {
+  font-size: .65rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: rgba(232,64,18,.7);
+}
+.versus-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  color: #e8e0d0;
+  margin: .3rem 0;
+  text-shadow: 0 0 30px rgba(232,64,18,.4);
+}
+.versus-style {
+  font-size: .75rem;
+  color: rgba(232,64,18,.6);
+  letter-spacing: .15em;
+}
+.versus-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  flex-shrink: 0;
+  padding-bottom: 8rem;
+  z-index: 4;
+}
+.vs-ring {
+  position: absolute;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  border: 1px solid rgba(192,57,43,.4);
+  animation: vsRing 2s ease-in-out infinite;
+}
+.vs-ring-2 {
+  width: 120px; height: 120px;
+  border-color: rgba(192,57,43,.2);
+  animation-delay: .4s;
+}
+@keyframes vsRing {
+  0%,100% { transform: scale(1); opacity: .6; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+.vs-text {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #c0392b;
+  text-shadow: 0 0 40px rgba(192,57,43,.9), 0 0 80px rgba(192,57,43,.4);
+  position: relative;
+  z-index: 1;
+}
+.vs-sub {
+  font-size: .62rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(232,224,208,.35);
+  margin-top: .5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+/* Diagonal slash divider */
+.battle-versus::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(192,57,43,.6) 30%, rgba(232,64,18,.9) 50%, rgba(192,57,43,.6) 70%, transparent);
+  transform: translateX(-50%) rotate(6deg) scaleY(1.1);
+  box-shadow: 0 0 20px rgba(192,57,43,.5);
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<!-- 
+  Photo credits: All background images sourced from Unsplash (unsplash.com)
+  Unsplash License: Free to use for personal and commercial purposes.
+  No attribution required per Unsplash License.
+  Demon Slayer: Kimetsu no Yaiba characters/lore © Koyoharu Gotouge / Shueisha / Ufotable
+  Character portraits are original procedural artwork, not reproductions.
+-->
+<!-- cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+
+<!-- nav -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">鬼滅の刃</a>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#story">Story</a></li>
+    <li><a href="#characters">Characters</a></li>
+    <li><a href="#hashira">Hashira</a></li>
+    <li><a href="#demons">Demons</a></li>
+    <li><a href="#battle">Battle</a></li>
+  </ul>
+</nav>
+
+<!-- ══════ 1. HERO ══════ -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-particles"></div>
+  <div class="hero-sword" id="heroSword"></div>
+  <div class="hero-content">
+    <p class="hero-label" id="heroLabel">— Kimetsu no Yaiba —</p>
+    <p class="hero-jp" id="heroJp">鬼滅の刃</p>
+    <h1 class="hero-title" id="heroTitle">DEMON<br>SLAYER</h1>
+    <p class="hero-subtitle" id="heroSub">"Even in the darkest night, the blade of hope still shines."</p>
+    <a href="#story" class="hero-btn" id="heroBtn">Enter the Story</a>
+  </div>
+</section>
+
+<!-- ══════ 2. STORY ══════ -->
+<section id="story">
+  <div class="story-bg" id="storyBg"></div>
+  <div class="story-overlay"></div>
+  <div class="story-char"></div>
+  <div class="story-mist"></div>
+  <div class="story-content">
+    <p class="story-label">— The Story —</p>
+    <h2 class="story-heading" id="storyHeading">A World of<br>Demons &amp;<br>Blades</h2>
+    <p class="story-text" id="storyText">Tanjiro Kamado's peaceful life is shattered when his family is attacked, leaving his sister Nezuko transformed into a demon. Determined to find a way to restore her humanity, Tanjiro enters the dangerous world of demon hunters — the Demon Slayer Corps.</p>
+  </div>
+</section>
+
+<!-- ══════ 3. CHARACTERS ══════ -->
+<div class="chars-pin-wrapper" id="charsPinWrapper">
+  <div class="chars-track" id="charsTrack">
+
+    <!-- Tanjiro -->
+    <div class="char-slide" style="--char-glow:#2980b9">
+      <div class="char-bg" style="background-image:url('assets/chars/tanjiro-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/water-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/tanjiro-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 01</span>
+        <h3 class="char-name">Tanjiro Kamado</h3>
+        <p class="char-desc">Kind-hearted and determined, Tanjiro wields Water Breathing and the rare Hinokami Kagura flame technique.</p>
+        <span class="char-style">⛩ Water Breathing · Hinokami Kagura</span>
+      </div>
+    </div>
+
+    <!-- Nezuko -->
+    <div class="char-slide" style="--char-glow:#e91e8c">
+      <div class="char-bg" style="background-image:url('assets/chars/nezuko-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/petals-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/nezuko-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 02</span>
+        <h3 class="char-name">Nezuko Kamado</h3>
+        <p class="char-desc">A demon who retained her humanity, Nezuko possesses the rare Blood Demon Art and fights to protect her brother.</p>
+        <span class="char-style">🌸 Blood Demon Art · Exploding Blood</span>
+      </div>
+    </div>
+
+    <!-- Zenitsu -->
+    <div class="char-slide" style="--char-glow:#f1c40f">
+      <div class="char-bg" style="background-image:url('assets/chars/zenitsu-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/lightning-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/zenitsu-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 03</span>
+        <h3 class="char-name">Zenitsu Agatsuma</h3>
+        <p class="char-desc">Fearful yet incredibly fast asleep, Zenitsu mastered a single Thunder Breathing form to devastating perfection.</p>
+        <span class="char-style">⚡ Thunder Breathing · Thunderclap and Flash</span>
+      </div>
+    </div>
+
+    <!-- Inosuke -->
+    <div class="char-slide" style="--char-glow:#27ae60">
+      <div class="char-bg" style="background-image:url('assets/chars/inosuke-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/ember-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/inosuke-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 04</span>
+        <h3 class="char-name">Inosuke Hashibira</h3>
+        <p class="char-desc">Raised by boars in the mountains, Inosuke developed Beast Breathing entirely on his own through raw instinct.</p>
+        <span class="char-style">🐗 Beast Breathing · Devour</span>
+      </div>
+    </div>
+
+    <!-- Giyu -->
+    <div class="char-slide" style="--char-glow:#2e4fac">
+      <div class="char-bg" style="background-image:url('assets/chars/giyu-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/water-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/giyu-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 05</span>
+        <h3 class="char-name">Giyu Tomioka</h3>
+        <p class="char-desc">The stoic Water Hashira who first spared Tanjiro's life — and invented a secret eleventh water form.</p>
+        <span class="char-style">💧 Water Breathing · Dead Calm</span>
+      </div>
+    </div>
+
+    <!-- Rengoku -->
+    <div class="char-slide" style="--char-glow:#e84118">
+      <div class="char-bg" style="background-image:url('assets/chars/rengoku-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/ember-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/rengoku-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 06</span>
+        <h3 class="char-name">Kyojuro Rengoku</h3>
+        <p class="char-desc">The blazing Flame Hashira whose burning spirit and legendary final battle inspired an entire generation.</p>
+        <span class="char-style">🔥 Flame Breathing · Ninth Form</span>
+      </div>
+    </div>
+
+    <!-- Shinobu -->
+    <div class="char-slide" style="--char-glow:#9c27b0">
+      <div class="char-bg" style="background-image:url('assets/chars/shinobu-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/butterflies-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/shinobu-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 07</span>
+        <h3 class="char-name">Shinobu Kocho</h3>
+        <p class="char-desc">The Insect Hashira who cannot decapitate demons — so she poisons them instead, with a perpetual smile.</p>
+        <span class="char-style">🦋 Insect Breathing · Dance of the Dragonfly</span>
+      </div>
+    </div>
+
+    <!-- Tengen -->
+    <div class="char-slide" style="--char-glow:#e74c3c">
+      <div class="char-bg" style="background-image:url('assets/chars/tengen-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/ember-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/tengen-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 08</span>
+        <h3 class="char-name">Tengen Uzui</h3>
+        <p class="char-desc">The flamboyant Sound Hashira, former shinobi, wields dual cleavers and turns battle into explosive performance.</p>
+        <span class="char-style">💥 Sound Breathing · Constant Slashing</span>
+      </div>
+    </div>
+
+    <!-- Muichiro -->
+    <div class="char-slide" style="--char-glow:#64b4dc">
+      <div class="char-bg" style="background-image:url('assets/chars/muichiro-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/water-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/muichiro-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 09</span>
+        <h3 class="char-name">Muichiro Tokito</h3>
+        <p class="char-desc">The youngest Hashira, a prodigy of Mist Breathing who achieved master level in just two months of training.</p>
+        <span class="char-style">🌫 Mist Breathing · Obscuring Clouds</span>
+      </div>
+    </div>
+
+    <!-- Mitsuri -->
+    <div class="char-slide" style="--char-glow:#ff64b4">
+      <div class="char-bg" style="background-image:url('assets/chars/mitsuri-bg.jpg')"></div>
+      <div class="char-overlay"></div>
+      <div class="char-particles" style="background-image:url('assets/effects/petals-overlay.png')"></div>
+      <div class="char-portrait" style="background-image:url('assets/chars/mitsuri-portrait.png')"></div>
+      <div class="char-content">
+        <span class="char-index">Character 10</span>
+        <h3 class="char-name">Mitsuri Kanroji</h3>
+        <p class="char-desc">The Love Hashira whose flexible body and unique thin blade give her Love Breathing unmatched speed and reach.</p>
+        <span class="char-style">💕 Love Breathing · Sixth Form</span>
+      </div>
+    </div>
+
+  </div><!-- /chars-track -->
+  <div class="char-pips" id="charPips"></div>
+</div><!-- /chars-pin-wrapper -->
+
+<!-- ══════ 4. BREATHING STYLES ══════ -->
+<section id="breathing">
+  <div class="breathing-bg"></div>
+  <div class="breathing-overlay"></div>
+  <div class="breathing-particles" id="breathParticles"></div>
+  <p class="breathing-label">— Techniques —</p>
+  <h2 class="breathing-title">Breathing Styles</h2>
+  <p class="breathing-sub">Choose your technique</p>
+  <div class="breathing-grid">
+    <div class="breath-card" data-style="water" data-bg="rgba(10,30,70,.6)" data-color="#3498db" data-particle="water" data-glow="rgba(52,152,219,.15)" tabindex="0" onclick="selectBreath(this)">
+      <span class="breath-icon">💧</span>
+      <h3 class="breath-name" style="--card-color:#3498db">Water Breathing</h3>
+      <p class="breath-user">Tanjiro · Giyu</p>
+      <p class="breath-desc">Flowing, adaptable forms that mirror the constant movement of water — calm yet devastating.</p>
+    </div>
+    <div class="breath-card" data-style="thunder" data-bg="rgba(40,30,0,.6)" data-color="#f1c40f" data-particle="lightning" data-glow="rgba(241,196,15,.15)" tabindex="0" onclick="selectBreath(this)">
+      <span class="breath-icon">⚡</span>
+      <h3 class="breath-name" style="--card-color:#f1c40f">Thunder Breathing</h3>
+      <p class="breath-user">Zenitsu</p>
+      <p class="breath-desc">Lightning-fast strikes so swift the user moves faster than the eye can track.</p>
+    </div>
+    <div class="breath-card" data-style="flame" data-bg="rgba(50,10,0,.6)" data-color="#e84118" data-particle="ember" data-glow="rgba(232,65,24,.15)" tabindex="0" onclick="selectBreath(this)">
+      <span class="breath-icon">🔥</span>
+      <h3 class="breath-name" style="--card-color:#e84118">Flame Breathing</h3>
+      <p class="breath-user">Rengoku</p>
+      <p class="breath-desc">Explosive, overwhelming techniques that channel the ferocity of open flame into every strike.</p>
+    </div>
+    <div class="breath-card" data-style="sound" data-bg="rgba(40,15,10,.6)" data-color="#e74c3c" data-particle="ember" data-glow="rgba(231,76,60,.15)" tabindex="0" onclick="selectBreath(this)">
+      <span class="breath-icon">💥</span>
+      <h3 class="breath-name" style="--card-color:#e74c3c">Sound Breathing</h3>
+      <p class="breath-user">Tengen Uzui</p>
+      <p class="breath-desc">A derivative of Thunder Breathing that uses the vibration of sound waves to amplify every blow.</p>
+    </div>
+    <div class="breath-card" data-style="mist" data-bg="rgba(10,15,30,.6)" data-color="#95a5a6" data-particle="water" data-glow="rgba(149,165,166,.1)" tabindex="0" onclick="selectBreath(this)">
+      <span class="breath-icon">🌫</span>
+      <h3 class="breath-name" style="--card-color:#95a5a6">Mist Breathing</h3>
+      <p class="breath-user">Muichiro</p>
+      <p class="breath-desc">Deceptive, unpredictable forms that obscure the user's movement like fog across still water.</p>
+    </div>
+    <div class="breath-card" data-style="love" data-bg="rgba(40,5,30,.6)" data-color="#ff64b4" data-particle="petals" data-glow="rgba(255,100,180,.15)" tabindex="0" onclick="selectBreath(this)">
+      <span class="breath-icon">💕</span>
+      <h3 class="breath-name" style="--card-color:#ff64b4">Love Breathing</h3>
+      <p class="breath-user">Mitsuri</p>
+      <p class="breath-desc">A unique derivative exploiting Mitsuri's extraordinarily flexible body to achieve impossible angles.</p>
+    </div>
+    <div class="breath-card" data-style="insect" data-bg="rgba(20,5,40,.6)" data-color="#9c27b0" data-particle="butterflies" data-glow="rgba(156,39,176,.15)" tabindex="0" onclick="selectBreath(this)">
+      <span class="breath-icon">🦋</span>
+      <h3 class="breath-name" style="--card-color:#9c27b0">Insect Breathing</h3>
+      <p class="breath-user">Shinobu</p>
+      <p class="breath-desc">Precision poison-delivery through rapid, insect-like thrusts too numerous to block or predict.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 5. HASHIRA ══════ -->
+<section id="hashira">
+  <div class="hashira-bg"></div>
+  <div class="hashira-overlay"></div>
+  <div class="hashira-header">
+    <span class="hashira-label">— Elite Warriors —</span>
+    <h2 class="hashira-title">The Hashira</h2>
+  </div>
+  <div class="hashira-grid">
+    <div class="hashira-card" style="height:480px">
+      <div class="hashira-card-bg" style="background-image:url('assets/chars/giyu-portrait.png')"></div>
+      <div class="hashira-card-overlay"></div>
+      <div class="hashira-card-body">
+        <span class="hashira-rank">Water Hashira</span>
+        <h3 class="hashira-name">Giyu Tomioka</h3>
+        <p class="hashira-style">Water Breathing</p>
+        <p class="hashira-quote">"I am the only one who knows the Eleventh Form."</p>
+      </div>
+      <div class="hashira-glow" style="--glow-color:#2e4fac"></div>
+    </div>
+    <div class="hashira-card" style="height:480px">
+      <div class="hashira-card-bg" style="background-image:url('assets/chars/rengoku-portrait.png')"></div>
+      <div class="hashira-card-overlay"></div>
+      <div class="hashira-card-body">
+        <span class="hashira-rank">Flame Hashira</span>
+        <h3 class="hashira-name">Kyojuro Rengoku</h3>
+        <p class="hashira-style">Flame Breathing</p>
+        <p class="hashira-quote">"Set your heart ablaze!"</p>
+      </div>
+      <div class="hashira-glow" style="--glow-color:#e84118"></div>
+    </div>
+    <div class="hashira-card" style="height:480px">
+      <div class="hashira-card-bg" style="background-image:url('assets/chars/shinobu-portrait.png')"></div>
+      <div class="hashira-card-overlay"></div>
+      <div class="hashira-card-body">
+        <span class="hashira-rank">Insect Hashira</span>
+        <h3 class="hashira-name">Shinobu Kocho</h3>
+        <p class="hashira-style">Insect Breathing</p>
+        <p class="hashira-quote">"I do so love butterflies. They're so beautiful when they flutter."</p>
+      </div>
+      <div class="hashira-glow" style="--glow-color:#9c27b0"></div>
+    </div>
+    <div class="hashira-card" style="height:480px">
+      <div class="hashira-card-bg" style="background-image:url('assets/chars/tengen-portrait.png')"></div>
+      <div class="hashira-card-overlay"></div>
+      <div class="hashira-card-body">
+        <span class="hashira-rank">Sound Hashira</span>
+        <h3 class="hashira-name">Tengen Uzui</h3>
+        <p class="hashira-style">Sound Breathing</p>
+        <p class="hashira-quote">"Be flamboyant! Live life and die flamboyantly!"</p>
+      </div>
+      <div class="hashira-glow" style="--glow-color:#e74c3c"></div>
+    </div>
+    <div class="hashira-card" style="height:480px">
+      <div class="hashira-card-bg" style="background-image:url('assets/chars/muichiro-portrait.png')"></div>
+      <div class="hashira-card-overlay"></div>
+      <div class="hashira-card-body">
+        <span class="hashira-rank">Mist Hashira</span>
+        <h3 class="hashira-name">Muichiro Tokito</h3>
+        <p class="hashira-style">Mist Breathing</p>
+        <p class="hashira-quote">"A prodigy. Two months of training."</p>
+      </div>
+      <div class="hashira-glow" style="--glow-color:#64b4dc"></div>
+    </div>
+    <div class="hashira-card" style="height:480px">
+      <div class="hashira-card-bg" style="background-image:url('assets/chars/mitsuri-portrait.png')"></div>
+      <div class="hashira-card-overlay"></div>
+      <div class="hashira-card-body">
+        <span class="hashira-rank">Love Hashira</span>
+        <h3 class="hashira-name">Mitsuri Kanroji</h3>
+        <p class="hashira-style">Love Breathing</p>
+        <p class="hashira-quote">"I want to find someone I can truly love."</p>
+      </div>
+      <div class="hashira-glow" style="--glow-color:#ff64b4"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 6. DEMONS ══════ -->
+<section id="demons">
+  <div class="demons-bg"></div>
+  <div class="demons-overlay"></div>
+  <div class="demons-smoke"></div>
+  <div class="demons-header">
+    <span class="demons-label">— Eternal Night —</span>
+    <h2 class="demons-title">The Demons</h2>
+  </div>
+  <div class="demons-grid">
+    <div class="demon-card">
+      <div class="demon-card-bg" style="background-image:url('assets/chars/muzan-portrait.png')"></div>
+      <div class="demon-card-overlay"></div>
+      <div class="demon-glow"></div>
+      <div class="demon-body">
+        <span class="demon-rank">Demon King</span>
+        <h3 class="demon-name">Muzan Kibutsuji</h3>
+        <p class="demon-desc">The origin of all demons. Immortal, shape-shifting, and utterly merciless.</p>
+      </div>
+    </div>
+    <div class="demon-card">
+      <div class="demon-card-bg" style="background-image:url('assets/chars/kokushibo-portrait.png')"></div>
+      <div class="demon-card-overlay"></div>
+      <div class="demon-glow"></div>
+      <div class="demon-body">
+        <span class="demon-rank">Upper Moon One</span>
+        <h3 class="demon-name">Kokushibo</h3>
+        <p class="demon-desc">A demon swordsman who mastered Moon Breathing, and twin brother of the Pillar Yoriichi.</p>
+      </div>
+    </div>
+    <div class="demon-card">
+      <div class="demon-card-bg" style="background-image:url('assets/chars/doma-portrait.png')"></div>
+      <div class="demon-card-overlay"></div>
+      <div class="demon-glow"></div>
+      <div class="demon-body">
+        <span class="demon-rank">Upper Moon Two</span>
+        <h3 class="demon-name">Doma</h3>
+        <p class="demon-desc">The cult leader with Cryogenic Blood Demon Art who consumed Shinobu's sister Kanae.</p>
+      </div>
+    </div>
+    <div class="demon-card">
+      <div class="demon-card-bg" style="background-image:url('assets/chars/akaza-portrait.png')"></div>
+      <div class="demon-card-overlay"></div>
+      <div class="demon-glow"></div>
+      <div class="demon-body">
+        <span class="demon-rank">Upper Moon Three</span>
+        <h3 class="demon-name">Akaza</h3>
+        <p class="demon-desc">An obsessive warrior with Destructive Death techniques and an obsession with strength.</p>
+      </div>
+    </div>
+    <div class="demon-card">
+      <div class="demon-card-bg" style="background-image:url('assets/chars/muzan-portrait.png');filter:hue-rotate(80deg) saturate(.3) brightness(.35)"></div>
+      <div class="demon-card-overlay"></div>
+      <div class="demon-glow"></div>
+      <div class="demon-body">
+        <span class="demon-rank">Upper Moon Four</span>
+        <h3 class="demon-name">Hantengu</h3>
+        <p class="demon-desc">A demon of overwhelming fear who splits into emotion-based clones when wounded.</p>
+      </div>
+    </div>
+    <div class="demon-card">
+      <div class="demon-card-bg" style="background-image:url('assets/chars/muzan-portrait.png');filter:hue-rotate(40deg) saturate(.3) brightness(.35)"></div>
+      <div class="demon-card-overlay"></div>
+      <div class="demon-glow"></div>
+      <div class="demon-body">
+        <span class="demon-rank">Upper Moon Five</span>
+        <h3 class="demon-name">Gyokko</h3>
+        <p class="demon-desc">A grotesque artist demon whose Blood Demon Art creates living weapons from fish forms.</p>
+      </div>
+    </div>
+    <div class="demon-card">
+      <div class="demon-card-bg" style="background-image:url('assets/chars/akaza-portrait.png');filter:hue-rotate(180deg) saturate(.4) brightness(.35)"></div>
+      <div class="demon-card-overlay"></div>
+      <div class="demon-glow"></div>
+      <div class="demon-body">
+        <span class="demon-rank">Upper Moon Six</span>
+        <h3 class="demon-name">Gyutaro &amp; Daki</h3>
+        <p class="demon-desc">Sibling demons sharing a single body — a duo born from destitution who rose to dominate the Entertainment District.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 7. UPPER MOONS ══════ -->
+<section id="upper-moons">
+  <div class="moons-bg"></div>
+  <div class="moons-overlay"></div>
+  <div class="moons-header">
+    <span class="moons-label">— Twelve Kizuki —</span>
+    <h2 class="moons-title">Upper Moons</h2>
+  </div>
+  <div class="moon-list" id="moonList">
+    <div class="moon-item">
+      <div class="moon-roman">I</div>
+      <div class="moon-portrait" style="background-image:url('assets/chars/kokushibo-portrait.png')"></div>
+      <div><div class="moon-name">Kokushibo</div><div class="moon-ability">Moon Breathing</div></div>
+    </div>
+    <div class="moon-item">
+      <div class="moon-roman">II</div>
+      <div class="moon-portrait" style="background-image:url('assets/chars/doma-portrait.png')"></div>
+      <div><div class="moon-name">Doma</div><div class="moon-ability">Cryogenic Blood Demon Art</div></div>
+    </div>
+    <div class="moon-item">
+      <div class="moon-roman">III</div>
+      <div class="moon-portrait" style="background-image:url('assets/chars/akaza-portrait.png')"></div>
+      <div><div class="moon-name">Akaza</div><div class="moon-ability">Destructive Death</div></div>
+    </div>
+    <div class="moon-item">
+      <div class="moon-roman">IV</div>
+      <div class="moon-portrait" style="background-image:url('assets/chars/muzan-portrait.png');filter:hue-rotate(80deg) saturate(.3) brightness(.5)"></div>
+      <div><div class="moon-name">Hantengu</div><div class="moon-ability">Emotional Split Clones</div></div>
+    </div>
+    <div class="moon-item">
+      <div class="moon-roman">V</div>
+      <div class="moon-portrait" style="background-image:url('assets/chars/muzan-portrait.png');filter:hue-rotate(40deg) saturate(.3) brightness(.5)"></div>
+      <div><div class="moon-name">Gyokko</div><div class="moon-ability">Fish Transformation Art</div></div>
+    </div>
+    <div class="moon-item">
+      <div class="moon-roman">VI</div>
+      <div class="moon-portrait" style="background-image:url('assets/chars/akaza-portrait.png');filter:hue-rotate(180deg) saturate(.35) brightness(.5)"></div>
+      <div><div class="moon-name">Gyutaro &amp; Daki</div><div class="moon-ability">Sickle &amp; Obi Sash</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 8. BATTLE ══════ -->
+<section id="battle">
+  <div class="battle-bg" id="battleBg"></div>
+  <div class="battle-overlay"></div>
+  <canvas class="battle-canvas" id="battleCanvas"></canvas>
+
+  <!-- Tengen vs Gyutaro Fight Scene -->
+  <div class="battle-versus" id="battleVersus">
+    <!-- Tengen side -->
+    <div class="versus-char versus-left" id="vsLeft">
+      <div class="versus-img" style="background-image:url('assets/chars/tengen-portrait.png')"></div>
+      <div class="versus-info">
+        <span class="versus-tag">Hashira</span>
+        <h3 class="versus-name">Tengen Uzui</h3>
+        <p class="versus-style">Sound Breathing</p>
+      </div>
+    </div>
+
+    <!-- VS badge -->
+    <div class="versus-center" id="vsCenter">
+      <div class="vs-ring"></div>
+      <div class="vs-ring vs-ring-2"></div>
+      <span class="vs-text">VS</span>
+      <p class="vs-sub">Entertainment District Arc</p>
+    </div>
+
+    <!-- Gyutaro side -->
+    <div class="versus-char versus-right" id="vsRight">
+      <div class="versus-img" style="background-image:url('assets/chars/gyutaro-portrait.png')"></div>
+      <div class="versus-info">
+        <span class="versus-tag" style="color:#8b0000">Upper Moon Six</span>
+        <h3 class="versus-name" style="color:#c0392b">Gyutaro</h3>
+        <p class="versus-style" style="color:rgba(192,57,43,.7)">Blood Sickle Demon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quote -->
+  <div class="battle-content" id="battleContent" style="position:relative;z-index:3;text-align:center;margin-top:3rem">
+    <p class="battle-line1" id="battleLine1">&ldquo; The most flamboyant battle in history &rdquo;</p>
+    <h2 class="battle-line2" id="battleLine2">Blades of Thunder &amp; Sound</h2>
+  </div>
+
+  <div class="battle-slash"></div>
+</section>
+
+<!-- ══════ 9. MUZAN ══════ -->
+<section id="muzan">
+  <div class="muzan-bg" id="muzanBg"></div>
+  <div class="muzan-overlay"></div>
+  <div class="muzan-glow-ring"></div>
+  <div class="muzan-scan"></div>
+  <div class="muzan-silhouette"></div>
+  <div class="muzan-content">
+    <span class="muzan-tag">— The Demon King —</span>
+    <h2 class="muzan-line1" id="muzanLine1">"The Night Is Not Over."</h2>
+    <p class="muzan-line2" id="muzanLine2">The Final Battle Awaits.</p>
+  </div>
+</section>
+
+<!-- ══════ 10. FINAL ══════ -->
+
+<!-- ===== CHARACTER SHOWCASE VIDEO ===== -->
+<section id="video-showcase">
+  <div class="video-section-bg"></div>
+  <p class="video-section-sub" id="videoSub">&#8212; All Characters &#8212;</p>
+  <h2 class="video-section-title" id="videoTitle">Character Showcase</h2>
+  <div class="video-wrapper" id="videoWrapper">
+    <video
+      src="assets/showcase.mp4"
+      controls
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+    ></video>
+    <div class="video-corner tl"></div>
+    <div class="video-corner tr"></div>
+    <div class="video-corner bl"></div>
+    <div class="video-corner br"></div>
+  </div>
+</section>
+
+<section id="final">
+  <div class="final-bg" id="finalBg"></div>
+  <div class="final-night-overlay" id="finalNightOverlay"></div>
+  <div class="final-silhouette" id="finalSilhouette"></div>
+  <div class="final-content">
+    <h2 class="final-line1" id="finalLine1">Keep Moving Forward.</h2>
+    <p class="final-line2" id="finalLine2">The Story Continues.</p>
+    <div class="final-buttons" id="finalBtns">
+      <a href="#characters" class="final-btn primary">Explore Characters</a>
+      <a href="#hero" class="final-btn secondary">Rewatch the Journey</a>
+    </div>
+  </div>
+</section>
+
+<!-- Asset credits (legal / SEO, hidden) -->
+<div class="asset-credits" aria-hidden="true">
+  Background images and visual effects are procedurally generated original artwork.
+  Demon Slayer: Kimetsu no Yaiba characters and lore &copy; Koyoharu Gotouge / Shueisha / Ufotable.
+  This is a fan/portfolio website with no commercial intent.
+  Character portraits are original CSS/procedural art, not reproductions of copyrighted imagery.
+</div>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+<script>
+// ────────────────────────────────────────
+// REDUCED MOTION CHECK
+// ────────────────────────────────────────
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ────────────────────────────────────────
+// GSAP REGISTER
+// ────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+// ────────────────────────────────────────
+// CURSOR
+// ────────────────────────────────────────
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+document.addEventListener('click', () => {
+  gsap.to(dot, { scale: 3, duration: .12, yoyo: true, repeat: 1 });
+  gsap.to(ring, { scale: 1.8, duration: .15, yoyo: true, repeat: 1, opacity: .3 });
+});
+(function animCursor() {
+  rx += (mx - rx) * .14;
+  ry += (my - ry) * .14;
+  dot.style.left  = mx + 'px'; dot.style.top = my + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+})();
+
+// ────────────────────────────────────────
+// SCROLL PROGRESS
+// ────────────────────────────────────────
+const progressBar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  progressBar.style.width = (pct * 100) + '%';
+}, { passive: true });
+
+// ────────────────────────────────────────
+// NAVBAR SCROLL STATE
+// ────────────────────────────────────────
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+document.querySelectorAll('.nav-links a, .hero-btn, .final-btn').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const el = document.querySelector(href);
+      if (el) gsap.to(window, { duration: 1.2, scrollTo: { y: el, offsetY: 0 }, ease: 'power2.inOut' });
+    }
+  });
+});
+
+// ────────────────────────────────────────
+// HERO ENTRANCE
+// ────────────────────────────────────────
+if (!prefersReduced) {
+  const heroTL = gsap.timeline({ delay: .3 });
+  heroTL
+    .to('#heroLabel',  { opacity: 1, y: 0, duration: .8, ease: 'power2.out' })
+    .to('#heroJp',     { opacity: 1, duration: .7, ease: 'power2.out' }, '-=.4')
+    .to('#heroTitle',  { opacity: 1, scale: 1, duration: 1.2, ease: 'expo.out' }, '-=.4')
+    .to('#heroSub',    { opacity: 1, duration: .8, ease: 'power2.out' }, '-=.5')
+    .to('#heroBtn',    { opacity: 1, duration: .6, ease: 'power2.out' }, '-=.4')
+    .to('#heroSword',  { scaleX: 1, duration: .8, ease: 'expo.out' }, '-=.3');
+
+  // Hero parallax
+  gsap.to('#heroBg', {
+    yPercent: 20,
+    ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
+
+  // Hero mouse parallax
+  document.getElementById('hero').addEventListener('mousemove', e => {
+    const dx = (e.clientX / window.innerWidth  - .5) * 20;
+    const dy = (e.clientY / window.innerHeight - .5) * 12;
+    gsap.to('#heroBg', { x: dx, y: dy, duration: 1.5, ease: 'power1.out' });
+  });
+}
+
+// ────────────────────────────────────────
+// STORY SECTION
+// ────────────────────────────────────────
+gsap.fromTo('#storyBg',
+  { yPercent: -10 },
+  { yPercent: 10, ease: 'none',
+    scrollTrigger: { trigger: '#story', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+gsap.fromTo('#storyHeading',
+  { opacity: 0, x: -60 },
+  { opacity: 1, x: 0, duration: .9, ease: 'power3.out',
+    scrollTrigger: { trigger: '#story', start: 'top 75%' } });
+
+gsap.fromTo('#storyText',
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 1, ease: 'power2.out',
+    scrollTrigger: { trigger: '#story', start: 'top 65%' } });
+
+// ────────────────────────────────────────
+// CHARACTER HORIZONTAL SCROLL
+// ────────────────────────────────────────
+const slides = document.querySelectorAll('.char-slide');
+const track  = document.getElementById('charsTrack');
+const pipsEl = document.getElementById('charPips');
+const NCHARS = slides.length;
+
+// Build pip indicators
+slides.forEach((_, i) => {
+  const pip = document.createElement('div');
+  pip.className = 'char-pip' + (i === 0 ? ' active' : '');
+  pip.addEventListener('click', () => goToChar(i));
+  pipsEl.appendChild(pip);
+});
+
+const charOverlayParts = {
+  water: 'url(assets/effects/water-overlay.png)',
+  petals: 'url(assets/effects/petals-overlay.png)',
+  lightning: 'url(assets/effects/lightning-overlay.png)',
+  ember: 'url(assets/effects/ember-overlay.png)',
+  butterflies: 'url(assets/effects/butterflies-overlay.png)',
+};
+
+let currentChar = 0;
+const charParticleEls = document.querySelectorAll('.char-particles');
+
+function updatePips(idx) {
+  document.querySelectorAll('.char-pip').forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+function activateCharParticles(idx) {
+  charParticleEls.forEach((el, i) => {
+    el.style.opacity = i === idx ? '.35' : '0';
+  });
+}
+function goToChar(idx) {
+  if (idx < 0 || idx >= NCHARS) return;
+  currentChar = idx;
+  gsap.to(track, {
+    x: -(idx * window.innerWidth),
+    duration: prefersReduced ? 0 : .9,
+    ease: 'power3.inOut'
+  });
+  updatePips(idx);
+  activateCharParticles(idx);
+}
+
+// Pin + scrub scroll
+ScrollTrigger.create({
+  trigger: '.chars-pin-wrapper',
+  pin: true,
+  start: 'top top',
+  end: () => '+=' + (NCHARS * window.innerWidth),
+  scrub: .8,
+  snap: { snapTo: 1 / (NCHARS - 1), duration: .6, ease: 'power2.out' },
+  onUpdate(self) {
+    const idx = Math.round(self.progress * (NCHARS - 1));
+    if (idx !== currentChar) { currentChar = idx; updatePips(idx); activateCharParticles(idx); }
+    gsap.set(track, { x: -(self.progress * (NCHARS - 1) * window.innerWidth) });
+  }
+});
+
+// Initial particle
+activateCharParticles(0);
+
+// ────────────────────────────────────────
+// BREATHING STYLES
+// ────────────────────────────────────────
+const breathBg  = document.querySelector('.breathing-bg');
+const breathPar = document.getElementById('breathParticles');
+const particleMap = {
+  water:       { bg: 'rgba(10,26,50,.96)',  img: 'url(assets/effects/water-overlay.png)',       color: '#3498db' },
+  lightning:   { bg: 'rgba(20,16,0,.96)',   img: 'url(assets/effects/lightning-overlay.png)',   color: '#f1c40f' },
+  ember:       { bg: 'rgba(30,8,0,.96)',    img: 'url(assets/effects/ember-overlay.png)',       color: '#e84118' },
+  petals:      { bg: 'rgba(30,4,20,.96)',   img: 'url(assets/effects/petals-overlay.png)',      color: '#ff64b4' },
+  butterflies: { bg: 'rgba(16,4,30,.96)',   img: 'url(assets/effects/butterflies-overlay.png)',color: '#9c27b0' },
+};
+
+window.selectBreath = function(card) {
+  document.querySelectorAll('.breath-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  const type = card.dataset.particle;
+  const pm = particleMap[type];
+  const photoMap = {water:'assets/effects/water-texture.jpg',lightning:'assets/effects/lightning-texture.jpg',ember:'assets/effects/fire-texture.jpg',petals:'assets/effects/petals-texture.jpg',butterflies:'assets/effects/petals-texture.jpg'};
+  if (pm) {
+    gsap.to(breathBg, { backgroundColor: pm.bg, duration: .6 });
+    breathPar.style.backgroundImage = pm.img;
+    gsap.to(breathPar, { opacity: .25, duration: .4 });
+  }
+};
+document.querySelectorAll('.breath-card').forEach(card => {
+  card.addEventListener('mouseenter', () => selectBreath(card));
+});
+
+// Breathing section entrance
+gsap.fromTo('.breath-card',
+  { opacity: 0, y: 40 },
+  { opacity: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out',
+    scrollTrigger: { trigger: '#breathing', start: 'top 70%' } });
+
+// ────────────────────────────────────────
+// HASHIRA CARDS
+// ────────────────────────────────────────
+gsap.fromTo('.hashira-card',
+  { opacity: 0, y: 80, rotateX: 8 },
+  { opacity: 1, y: 0, rotateX: 0, duration: .9, stagger: .15, ease: 'power3.out',
+    scrollTrigger: { trigger: '#hashira', start: 'top 70%' } });
+
+// 3D tilt on hover
+document.querySelectorAll('.hashira-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    if (prefersReduced) return;
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - .5;
+    const y = (e.clientY - r.top)  / r.height - .5;
+    gsap.to(card, { rotateY: x * 14, rotateX: -y * 8, duration: .4, ease: 'power1.out',
+                    transformPerspective: 800 });
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { rotateY: 0, rotateX: 0, duration: .6, ease: 'power2.out' });
+  });
+});
+
+// ────────────────────────────────────────
+// DEMONS ENTRANCE
+// ────────────────────────────────────────
+gsap.fromTo('.demon-card',
+  { opacity: 0, scale: .9 },
+  { opacity: 1, scale: 1, duration: .8, stagger: .12, ease: 'power3.out',
+    scrollTrigger: { trigger: '#demons', start: 'top 70%' } });
+
+// Darken as user enters demons section
+gsap.to('.demons-overlay', {
+  backgroundColor: 'rgba(5,5,8,.85)',
+  scrollTrigger: { trigger: '#demons', start: 'top 80%', end: 'center center', scrub: true }
+});
+
+// ────────────────────────────────────────
+// UPPER MOONS REVEAL
+// ────────────────────────────────────────
+ScrollTrigger.create({
+  trigger: '#upper-moons',
+  start: 'top 70%',
+  onEnter() {
+    document.querySelectorAll('.moon-item').forEach((el, i) => {
+      setTimeout(() => el.classList.add('revealed'), i * 180);
+    });
+  }
+});
+
+// ────────────────────────────────────────
+// BATTLE SECTION — CANVAS SPARKS
+// ────────────────────────────────────────
+const battleCanvas = document.getElementById('battleCanvas');
+const bctx = battleCanvas.getContext('2d');
+let bw, bh, sparks = [], battleActive = false;
+
+function resizeBattle() {
+  bw = battleCanvas.width  = window.innerWidth;
+  bh = battleCanvas.height = window.innerHeight;
+}
+resizeBattle();
+window.addEventListener('resize', resizeBattle);
+
+function spawnSpark() {
+  const angle = Math.random() * Math.PI * 2;
+  const speed = 2 + Math.random() * 5;
+  sparks.push({
+    x: bw * (.3 + Math.random() * .4),
+    y: bh * (.4 + Math.random() * .3),
+    vx: Math.cos(angle) * speed,
+    vy: Math.sin(angle) * speed - 2,
+    life: 1,
+    decay: .012 + Math.random() * .02,
+    size: 1 + Math.random() * 2.5,
+    color: Math.random() > .5 ? '#e84118' : '#f1c40f'
+  });
+}
+
+function drawBattle() {
+  if (!battleActive) { requestAnimationFrame(drawBattle); return; }
+  bctx.clearRect(0, 0, bw, bh);
+  if (sparks.length < 120) for (let i = 0; i < 4; i++) spawnSpark();
+  // Sword slash
+  const now = Date.now() / 1000;
+  const slashX1 = bw * .25 + Math.sin(now * 2.1) * 30;
+  const slashY1 = bh * .35 + Math.cos(now * 1.7) * 20;
+  const slashX2 = bw * .75 + Math.sin(now * 1.9) * 25;
+  const slashY2 = bh * .65 + Math.cos(now * 2.3) * 15;
+  const grad = bctx.createLinearGradient(slashX1, slashY1, slashX2, slashY2);
+  grad.addColorStop(0, 'rgba(232,224,208,0)');
+  grad.addColorStop(.3, 'rgba(232,224,208,.7)');
+  grad.addColorStop(.7, 'rgba(200,57,43,.6)');
+  grad.addColorStop(1, 'rgba(232,224,208,0)');
+  bctx.strokeStyle = grad;
+  bctx.lineWidth = 1.5 + Math.sin(now * 3) * .5;
+  bctx.beginPath();
+  bctx.moveTo(slashX1, slashY1);
+  bctx.lineTo(slashX2, slashY2);
+  bctx.stroke();
+  // Flash
+  const flashA = Math.max(0, Math.sin(now * 5.5)) * .04;
+  if (flashA > .02) {
+    bctx.fillStyle = `rgba(200,100,50,${flashA})`;
+    bctx.fillRect(0, 0, bw, bh);
+  }
+  // Sparks
+  sparks = sparks.filter(s => s.life > 0);
+  sparks.forEach(s => {
+    bctx.globalAlpha = s.life;
+    bctx.fillStyle = s.color;
+    bctx.beginPath();
+    bctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+    bctx.fill();
+    s.x += s.vx; s.y += s.vy; s.vy += .15; s.life -= s.decay;
+  });
+  bctx.globalAlpha = 1;
+  requestAnimationFrame(drawBattle);
+}
+drawBattle();
+
+ScrollTrigger.create({
+  trigger: '#battle',
+  start: 'top 80%',
+  onEnter() { battleActive = true; },
+  onLeaveBack() { battleActive = false; }
+});
+
+gsap.fromTo('#battleLine1',
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 1, ease: 'power2.out',
+    scrollTrigger: { trigger: '#battle', start: 'top 65%' } });
+gsap.fromTo('#battleLine2',
+  { opacity: 0, scaleX: .8 },
+  { opacity: 1, scaleX: 1, duration: 1.2, ease: 'expo.out',
+    scrollTrigger: { trigger: '#battle', start: 'top 55%' } });
+
+// ────────────────────────────────────────
+// MUZAN SECTION
+// ────────────────────────────────────────
+gsap.to('#muzanBg', {
+  scale: 1.12,
+  ease: 'none',
+  scrollTrigger: { trigger: '#muzan', start: 'top bottom', end: 'bottom top', scrub: true }
+});
+gsap.fromTo('#muzanLine1',
+  { opacity: 0, y: 40 },
+  { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out',
+    scrollTrigger: { trigger: '#muzan', start: 'top 65%' } });
+gsap.fromTo('#muzanLine2',
+  { opacity: 0 },
+  { opacity: 1, duration: 1, ease: 'power2.out',
+    scrollTrigger: { trigger: '#muzan', start: 'top 50%' } });
+
+// ────────────────────────────────────────
+// FINAL SUNRISE SECTION
+// ────────────────────────────────────────
+ScrollTrigger.create({
+  trigger: '#final',
+  start: 'top 80%',
+  onEnter() {
+    // Reveal sunrise bg
+    gsap.to('#finalBg',           { opacity: 1, duration: 2.5, ease: 'power2.out' });
+    gsap.to('#finalNightOverlay', { opacity: 0, duration: 2.5, ease: 'power2.out' });
+    gsap.to('#finalSilhouette',   { opacity: 1, duration: 2, delay: .8, ease: 'power2.out' });
+    // Content stagger
+    const tl = gsap.timeline({ delay: 1 });
+    tl.fromTo('#finalLine1', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .9, ease: 'power3.out' })
+      .fromTo('#finalLine2', { opacity: 0 },         { opacity: 1, duration: .7, ease: 'power2.out' }, '-=.3')
+      .fromTo('#finalBtns',  { opacity: 0, y: 20 },  { opacity: 1, y: 0, duration: .7, ease: 'power2.out' }, '-=.2');
+  }
+});
+
+// ────────────────────────────────────────
+// GLOBAL STAR / EMBER PARTICLE CANVAS (hero area)
+// ────────────────────────────────────────
+// (handled by CSS animated ember-overlay tile — lightweight)
+
+// ────────────────────────────────────────
+// MOBILE: TOUCH CHAR SWIPE
+// ────────────────────────────────────────
+let touchStartX = 0;
+document.querySelector('.chars-pin-wrapper').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+document.querySelector('.chars-pin-wrapper').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    goToChar(currentChar + (dx < 0 ? 1 : -1));
+  }
+}, { passive: true });
+
+
+// === Tengen vs Gyutaro battle reveal ===
+gsap.fromTo('#vsLeft',
+  { opacity: 0, x: -120 },
+  { opacity: 1, x: 0, duration: 1.2, ease: 'expo.out',
+    scrollTrigger: { trigger: '#battle', start: 'top 70%' } });
+gsap.fromTo('#vsRight',
+  { opacity: 0, x: 120 },
+  { opacity: 1, x: 0, duration: 1.2, ease: 'expo.out', delay: .1,
+    scrollTrigger: { trigger: '#battle', start: 'top 70%' } });
+gsap.fromTo('#vsCenter',
+  { opacity: 0, scale: 0.5 },
+  { opacity: 1, scale: 1, duration: .8, ease: 'back.out(1.7)', delay: .5,
+    scrollTrigger: { trigger: '#battle', start: 'top 70%' } });
+
+// === Video section scroll reveal ===
+gsap.fromTo('#videoSub',
+  { opacity: 0, y: 20 },
+  { opacity: 1, y: 0, duration: 0.8,
+    scrollTrigger: { trigger: '#video-showcase', start: 'top 75%' } });
+gsap.fromTo('#videoTitle',
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 1, delay: 0.15,
+    scrollTrigger: { trigger: '#video-showcase', start: 'top 75%' } });
+gsap.fromTo('#videoWrapper',
+  { opacity: 0, scale: 0.92 },
+  { opacity: 1, scale: 1, duration: 1.2, delay: 0.3, ease: 'expo.out',
+    scrollTrigger: { trigger: '#video-showcase', start: 'top 65%' } });
+
+</script>
+</body>
+</html>
